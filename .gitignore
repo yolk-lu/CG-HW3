@@ -1,0 +1,23 @@
+# Build artifacts
+build/
+bin/
+*.bin
+
+# Output generated images
+*.png
+*.jpg
+*.jpeg
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
