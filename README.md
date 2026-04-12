@@ -43,6 +43,9 @@ This is the guideline for the homework to show users how to compile, test, and v
 
 ### 1. Compile C++ rasterization program
 ```bash
+
+cd hw3-rast
+
 # Generate CMake build files
 cmake -B build
 
