@@ -67,3 +67,26 @@ Finally, trigger the Python script to read the binary depth maps and perform tex
 python diffusion_shading.py
 ```
 *(Note: The first execution will download several gigabytes of pre-trained HuggingFace models. Once finished, you can inspect the visual results in outputs like `software_shaded_result.png`.)*
+
+## Troubleshooting (Conda C++ Build Issues)
+
+When using Conda to manage C++ graphics packages, you might encounter linking or compilation issues because Conda isolates your environment from system-level OpenGL libraries (`/usr/include/GL` and `/usr/lib/`).
+
+**1. `fatal error: GL/gl.h: No such file or directory` or missing OpenGL library**
+Ensure you have installed the required OpenGL provider packages within Conda:
+```bash
+conda install -c conda-forge mesalib libglvnd xorg-libxxf86vm
+```
+*(Note: These have already been added to the updated `environment.yml`.)*
+
+**2. Linker Error `ld: cannot find -lOpenGL`**
+Sometimes the provided Conda libraries compile correctly but the linker fails because the `.so` extensions map strictly to versioned files (like `libOpenGL.so.0`), which CMake avoids defaulting to without the raw `libOpenGL.so` symlink. If `make` fails with `-lOpenGL` missing, run the following to create the required symlinks inside your Conda environment:
+```bash
+# Navigate to your active Conda environment's lib folder
+cd $CONDA_PREFIX/lib
+
+# Create missing unversioned symlinks for the Linker
+ln -sf libOpenGL.so.0 libOpenGL.so
+ln -sf libGL.so.1 libGL.so
+```
+Then re-run `make` inside your `build` directory.

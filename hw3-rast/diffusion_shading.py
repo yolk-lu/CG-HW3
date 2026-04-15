@@ -61,7 +61,7 @@ def run_diffusion():
     prompt = "A high quality intricate 3d render of abstract geometric shapes, crystal glass texture, professional studio lighting, cinematic, 8k resolution, highly detailed materials, soft shadows, octane render"
     negative_prompt = "low quality, blurry, flat, ugly, text, out of focus, distorted"
     
-    # Determine execution root (in case user runs from inside build/ or src/)
+    # Determine execution root (in case user runs from inside build/ )
     base_dir = "build/" if os.path.exists("build/software_depth.bin") else "./"
 
     # Process Software Rasterizer Output
@@ -69,7 +69,7 @@ def run_diffusion():
     try:
         sw_depth = load_binary_depth_map(os.path.join(base_dir, "software_depth.bin"))
         
-        # Save intermediate depth map view for debugging and verifying
+        # Save intermediate depth map view for verifying
         sw_depth.save("debug_sw_depth_map.png") 
         
         result_sw = pipe(

@@ -15,6 +15,9 @@ dependencies:
   - glfw
   - glm
   - freeglut
+  - mesalib
+  - libglvnd
+  - xorg-libxxf86vm
   
   # Pytorch packages
   - pytorch
