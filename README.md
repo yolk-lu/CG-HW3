@@ -64,7 +64,7 @@ When executed, this program will pop up a window comparing Hardware OpenGL (left
 Finally, trigger the Python script to read the binary depth maps and perform texture mapping using AI algorithms.
 ```bash
 # Execute the shading script
-python diffusion_shading.py
+HF_TOKEN="Your token" python diffusion_shading.py
 ```
 *(Note: The first execution will download several gigabytes of pre-trained HuggingFace models. Once finished, you can inspect the visual results in outputs like `software_shaded_result.png`.)*
 
