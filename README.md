@@ -88,5 +88,9 @@ cd $CONDA_PREFIX/lib
 # Create missing unversioned symlinks for the Linker
 ln -sf libOpenGL.so.0 libOpenGL.so
 ln -sf libGL.so.1 libGL.so
+
+# if pillow has problem , using so.6 soft link so.5
+ln -sf libtiff.so.6 libtiff.so.5
+ 
 ```
 Then re-run `make` inside your `build` directory.

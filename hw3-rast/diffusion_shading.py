@@ -44,17 +44,31 @@ def load_binary_depth_map(filepath, flip_vertical=False):
 def run_diffusion():
     print("Loading Pretrained Models")
 
-    # you can change the model to speed up
-    controlnet = ControlNetModel.from_pretrained(
-        "lllyasviel/sd-controlnet-depth", 
-        torch_dtype=torch.float16
-    )
-    
-    pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        "runwayml/stable-diffusion-v1-5", 
-        controlnet=controlnet, 
-        torch_dtype=torch.float16
-    )
+    # Attempt to load from local cache first to avoid slow HTTP checks. If not found, download.
+    try:
+        controlnet = ControlNetModel.from_pretrained(
+            "lllyasviel/sd-controlnet-depth", 
+            torch_dtype=torch.float16,
+            local_files_only=True
+        )
+        pipe = StableDiffusionControlNetPipeline.from_pretrained(
+            "runwayml/stable-diffusion-v1-5", 
+            controlnet=controlnet, 
+            torch_dtype=torch.float16,
+            local_files_only=True
+        )
+    except Exception:
+        print("Local cache not found or checking for updates. Connecting to Hugging Face...")
+        controlnet = ControlNetModel.from_pretrained(
+            "lllyasviel/sd-controlnet-depth", 
+            torch_dtype=torch.float16
+        )
+        pipe = StableDiffusionControlNetPipeline.from_pretrained(
+            "runwayml/stable-diffusion-v1-5", 
+            controlnet=controlnet, 
+            torch_dtype=torch.float16
+        )
+
     pipe.to("cuda")
 
     # Core aesthetics prompt(you can change it to get different results)
@@ -62,7 +76,7 @@ def run_diffusion():
     negative_prompt = "low quality, blurry, flat, ugly, text, out of focus, distorted"
     
     # Determine execution root (in case user runs from inside build/ )
-    base_dir = "build/" if os.path.exists("build/software_depth.bin") else "./"
+    base_dir = "build/" 
 
     # Process Software Rasterizer Output
     print("\nProcessing Software Rasterization Output...")

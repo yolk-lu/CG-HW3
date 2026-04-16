@@ -340,6 +340,9 @@ int main(void)
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetWindowSizeCallback(window, window_size_callback);
 
+	// Initialize the custom Z-buffer manually for the first frame
+	swInitZbuffer(winWidth/2, winHeight);
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
